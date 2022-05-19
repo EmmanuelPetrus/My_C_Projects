@@ -73,6 +73,7 @@ void takepassword(char pwd[50])
 }
 int main(void)
 {
+    system("cls");
     system("color 0b");
     struct user User;
     struct user usr;
@@ -108,16 +109,15 @@ int main(void)
         if (!strcmp(User.password, password2))
         {
             generate_username(User.email, User.username);
-            printf("\nYour username is %s", User.username);
+            printf("\nYour username is %s",User.username);
             printf("\nYour fullname is %s",User.fullName);
-            // fp = fopen("Users.dat","a+");
-            // fp = fopen("Users2.txt", "a+");
-            // fwrite(&User, sizeof(struct user), 1, fp);
-            // if (fwrite != 0)
-            //     printf("\n\nUser registration success, Your username is %s", User.username);
-            // else
-            //     printf("\n\nSorry! something went wrong : ");
-            // fclose(fp);
+            fp = fopen("Users2.txt", "a+");
+            fwrite(&User, sizeof(struct user), 1, fp);
+            if (fwrite != 0)
+                printf("\n\nUser registration successful, Your username is %s", User.username);
+            else
+                printf("\n\nSorry! something went wrong : ");
+            fclose(fp);
         }
         else
         {
