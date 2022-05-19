@@ -17,32 +17,28 @@ struct user
 void takeinput(char ch[50])
 {
     fgets(ch, 50, stdin);
-    ch[strlen(ch)] = 0;
+    ch[strlen(ch)-1] = '\0';
     printf("%s\n", ch);
-    fflush(stdin);
+    
 }
 
 void generate_username(char email[50], char username[50])
 {
+    int i;
     
-    for (int i = 0; i < strlen(email); i++)
+    for ( i = 0; i < strlen(email); i++)
     {
-        printf("\n%c",email[i]);
         if (email[i] == '@')
         {
-            fgetc(stdin);
             break;
         }
         else
         {
             username[i] = email[i];
-            // printf("\n%c",username[i]);
         }
     }
-    for (int i = 0; i < strlen(username); i++)
-    {
-        printf("\n%c",username[i]);
-    }
+    username[i] = '\0';
+    printf("Your username is %s",username);
     
 
 }
@@ -112,8 +108,8 @@ int main(void)
         if (!strcmp(User.password, password2))
         {
             generate_username(User.email, User.username);
-            // printf("\nYour username is %s", User.username);
-            // printf("\nYour fullname is %s",User.fullName);
+            printf("\nYour username is %s", User.username);
+            printf("\nYour fullname is %s",User.fullName);
             // fp = fopen("Users.dat","a+");
             // fp = fopen("Users2.txt", "a+");
             // fwrite(&User, sizeof(struct user), 1, fp);
