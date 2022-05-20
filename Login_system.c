@@ -2,28 +2,34 @@
 #include <conio.h>
 #include <windows.h>
 
-#define ENTER 13         //ASCII value for enter key
-#define TAB 9              //ASCII value for tab key
-#define BACKSPACE 8         //ASCII value for tab key
-#define BUFFER 50           //Upper bound for characters
+#define ENTER 13    // ASCII value for enter key
+#define TAB 9       // ASCII value for tab key
+#define BACKSPACE 8 // ASCII value for tab key
+#define BUFFER 50   // Upper bound for characters
 
-// function prototypes 
+// function prototypes
 
-void takeinput(char []);
-void generate_username(char [],char []);
-void take_password(char []);
+void takeinput(char *fullName);
+void generate_username(char *email, char *username);
+void take_password(char[]);
 
-//A struct to store the information of every user
+// A struct to store the information of every user
 struct user
 {
-    char fullName[BUFFER];
-    char email[BUFFER];
-    char password[BUFFER];
-    char username[BUFFER];
-    char phone[BUFFER];
+    // char fullName[BUFFER];
+    // char email[BUFFER];
+    // char password[BUFFER];
+    // char username[BUFFER];
+    // char phone[BUFFER];
+    char *fullName;
+    char *email;
+    char *password;
+    char *username;
+    char *phone;
+    struct user *pnext ;
 };
 
-//A function to store inputs from the user 
+// A function to store inputs from the user
 void takeinput(char ch[BUFFER])
 {
     fgets(ch, BUFFER, stdin);
@@ -31,7 +37,7 @@ void takeinput(char ch[BUFFER])
     printf("%s\n", ch);
 }
 
-//A function to generate username from the email
+// A function to generate username from the email
 void generate_username(char email[BUFFER], char username[BUFFER])
 {
     int i;
@@ -51,7 +57,7 @@ void generate_username(char email[BUFFER], char username[BUFFER])
     printf("Your username is %s", username);
 }
 
-//A function to take in password of the user and store it appropriately
+// A function to take in password of the user and store it appropriately
 void takepassword(char pwd[BUFFER])
 {
     int i = 0;
@@ -80,6 +86,15 @@ void takepassword(char pwd[BUFFER])
         }
     }
 }
+int*  space_allocator()
+{
+     printf("\nKindly enter the length: ");
+        int a;
+        scanf("%d", &a);
+        fgetc(stdin);
+        char *ptr = (char *)malloc(a * sizeof(char));
+        return ptr;
+}
 int main(void)
 {
     system("cls");
@@ -87,8 +102,10 @@ int main(void)
     struct user User;
     struct user usr;
     FILE *fp;
-    char username[BUFFER], pword[BUFFER];
-    char password2[BUFFER];
+    // char username, pword[BUFFER];
+    char *username, *pword;
+    // char password2[BUFFER];
+    char *password2;
     int opt, usrFound;
     printf("\n\t\t\t------------Welcome to authentication system----------------");
     printf("\nPlease choose your operation");
@@ -105,12 +122,16 @@ int main(void)
     case 1:
         system("cls");
         printf("\nEnter your full name:\t");
+        User.fullName = space_allocator();
         takeinput(User.fullName);
         printf("Enter your email:\t");
+        User.email = space_allocator();
         takeinput(User.email);
         printf("Enter your contact no:\t");
+        User.phone = space_allocator();
         takeinput(User.phone);
         printf("Enter your password:\t");
+        User.password = space_allocator();
         takepassword(User.password);
         printf("\n Confirm your password:\t");
         takepassword(password2);
