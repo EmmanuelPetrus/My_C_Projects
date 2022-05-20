@@ -2,31 +2,41 @@
 #include <conio.h>
 #include <windows.h>
 
-#define ENTER 13
-#define TAB 9
-#define BACKSPACE 8
+#define ENTER 13         //ASCII value for enter key
+#define TAB 9              //ASCII value for tab key
+#define BACKSPACE 8         //ASCII value for tab key
+#define BUFFER 50           //Upper bound for characters
+
+// function prototypes 
+
+void takeinput(char []);
+void generate_username(char [],char []);
+void take_password(char []);
+
+//A struct to store the information of every user
 struct user
 {
-    char fullName[50];
-    char email[50];
-    char password[50];
-    char username[50];
-    char phone[50];
+    char fullName[BUFFER];
+    char email[BUFFER];
+    char password[BUFFER];
+    char username[BUFFER];
+    char phone[BUFFER];
 };
 
-void takeinput(char ch[50])
+//A function to store inputs from the user 
+void takeinput(char ch[BUFFER])
 {
-    fgets(ch, 50, stdin);
-    ch[strlen(ch)-1] = '\0';
+    fgets(ch, BUFFER, stdin);
+    ch[strlen(ch) - 1] = '\0';
     printf("%s\n", ch);
-    
 }
 
-void generate_username(char email[50], char username[50])
+//A function to generate username from the email
+void generate_username(char email[BUFFER], char username[BUFFER])
 {
     int i;
-    
-    for ( i = 0; i < strlen(email); i++)
+
+    for (i = 0; i < strlen(email); i++)
     {
         if (email[i] == '@')
         {
@@ -38,12 +48,11 @@ void generate_username(char email[50], char username[50])
         }
     }
     username[i] = '\0';
-    printf("Your username is %s",username);
-    
-
+    printf("Your username is %s", username);
 }
 
-void takepassword(char pwd[50])
+//A function to take in password of the user and store it appropriately
+void takepassword(char pwd[BUFFER])
 {
     int i = 0;
     char ch;
@@ -78,8 +87,8 @@ int main(void)
     struct user User;
     struct user usr;
     FILE *fp;
-    char username[50], pword[50];
-    char password2[50];
+    char username[BUFFER], pword[BUFFER];
+    char password2[BUFFER];
     int opt, usrFound;
     printf("\n\t\t\t------------Welcome to authentication system----------------");
     printf("\nPlease choose your operation");
@@ -109,14 +118,17 @@ int main(void)
         if (!strcmp(User.password, password2))
         {
             generate_username(User.email, User.username);
-            printf("\nYour username is %s",User.username);
-            printf("\nYour fullname is %s",User.fullName);
+            printf("\nYour username is %s", User.username);
+            printf("\nYour fullname is %s", User.fullName);
             fp = fopen("Users2.txt", "a+");
             fwrite(&User, sizeof(struct user), 1, fp);
-            if (fwrite != 0)
-                printf("\n\nUser registration successful, Your username is %s", User.username);
+            if (fp == NULL)
+            {
+                fprintf(stderr, "Error opening file for writing");
+                exit(1);
+            }
             else
-                printf("\n\nSorry! something went wrong : ");
+                printf("\n\nUser registration successful, Your username is %s", User.username);
             fclose(fp);
         }
         else
@@ -131,6 +143,11 @@ int main(void)
         printf("Enter your password:\t");
         takepassword(pword);
         fp = fopen("Users2.txt", "r");
+        if (fp == NULL)
+        {
+            fprintf(stderr, "Error opening file for reading");
+            exit(1);
+        }
 
         while (fread(&usr, sizeof(struct user), 1, fp))
         {
