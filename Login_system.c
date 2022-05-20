@@ -130,7 +130,8 @@ int main(void)
         takeinput(username);
         printf("Enter your password:\t");
         takepassword(pword);
-        fp = fopen("Users.dat", "r");
+        fp = fopen("Users2.txt", "r");
+
         while (fread(&usr, sizeof(struct user), 1, fp))
         {
             if (!strcmp(usr.username, username))
@@ -138,9 +139,10 @@ int main(void)
                 system("cls");
                 if (!strcmp(usr.password, pword))
                 {
+                    system("cls");
                     printf("\n\t\t\t\t\t\t\t\t\tWelcome %s", usr.fullName);
                     printf("\n\n|Full Name:\t%s", usr.fullName);
-                    printf("\n|Emain:\t\t%s", usr.email);
+                    printf("\n|Email:\t\t%s", usr.email);
                     printf("\n|Username:\t%s", usr.username);
                     printf("\n|Contact no.:\t%s", usr.phone);
                 }
@@ -157,8 +159,8 @@ int main(void)
             printf("\n\nUser is not registered!");
             Beep(800, 300);
         }
-
         fclose(fp);
+        break;
     case 3:
         printf("\t\t\t Bye Bye :)");
         break;
