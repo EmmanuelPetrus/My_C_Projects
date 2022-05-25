@@ -10,9 +10,9 @@ int main(void)
     details *person_store = &person;
     int *len_store = &length;
     FILE *fp;
-    char *password2;
     int opt, usrFound;
     char a = 'n', b = 'm', c = '2';
+    char *user_name;
     system("cls");
     system("color 0b");
     printf("\n\t\t\t------------Welcome to authentication system----------------");
@@ -29,39 +29,36 @@ int main(void)
     {
     case 1:
         system("cls");
+        // char *password2;
         char *name = take_input(person_store, a, len_store);
         char *phone_no = take_input(person_store, c, len_store);
         char *email = take_input(person_store, b, len_store);
-        char *password = takepassword(person_store, len_store);
-        char *user_name = generate_username(person_store, len_store);
-        free_memory(name, email, user_name,phone_no,password);
-        break;
-        // printf("Enter your password:\t");
-        // User.password = space_allocator();
-        // takepassword(User.password);
-        // printf("\n Confirm your password:\t");
-        // takepassword(password2);
+        char *pwd = take_password(person_store, c);
+        char *pwd2 = take_password(person_store, a);
+        if (!strcmp(pwd, pwd2))
+        {
 
-        // if (!strcmp(User.password, password2))
-        // {
-        //     generate_username(User.email, User.username);
-        //     printf("\nYour username is %s", User.username);
-        //     printf("\nYour fullname is %s", User.fullName);
-        //     fp = fopen("Users2.txt", "a+");
-        //     fwrite(&User, sizeof(struct user), 1, fp);
-        //     if (fp == NULL)
-        //     {
-        //         fprintf(stderr, "Error opening file for writing");
-        //         exit(1);
-        //     }
-        //     else
-        //         printf("\n\nUser registration successful, Your username is %s", User.username);
-        //     fclose(fp);
-        // }
-        // else
-        // {
-        //     printf("\nPassword do not match");
-        // }
+            user_name = generate_username(person_store, len_store);
+            printf("\nYour username is %s", person_store->username);
+            printf("\nYour fullname is %s", person_store->fname);
+            fp = fopen("Users2.dat", "a+");
+            fwrite(person_store, sizeof(details), 1, fp);
+            if (fp == NULL)
+            {
+                fprintf(stderr, "Error opening file for writing");
+                exit(1);
+            }
+            else
+                printf("\n\nUser registration successful, Your username is %s", user_name);
+            fclose(fp);
+            free_memory(name, email, user_name, phone_no, pwd, pwd2);
+        }
+        else
+        {
+            printf("\nPassword do not match");
+        }
+        free_memory(name, email, user_name, phone_no, pwd, pwd2);
+        break;
         // case 2:
 
         //     printf("\nEnter your username:\t");
